@@ -4,6 +4,7 @@ import type { RouteRecordRaw } from "vue-router";
 // Base
 const Main = () => import("@/layouts/MainLayout.vue");
 const login = () => import("@/views/LoginView.vue");
+const User = () => import("@/views/Users.vue");
 const NotFound = () => import("@/views/NotFoundView.vue");
 
 // Views
