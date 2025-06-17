@@ -25,6 +25,16 @@ const routerOptions: RouteRecordRaw[] = [
           roles: [Role.ADMIN, Role.USER],
         },
       },
+      {
+        path: "user",
+        name: "User",
+        component: User,
+        meta: {
+          title: "User",
+          requiresAuth: true,
+          roles: [Role.ADMIN],
+        },
+      },
     ],
   },
   {
