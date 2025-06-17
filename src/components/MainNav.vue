@@ -26,6 +26,10 @@ const logout = () => {
         class="py-2 px-3 rounded-lg transition-transform hover:cursor-pointer hover:scale-125">
         <Icon name="home" size="24" css="fill-zinc-500" />
       </router-link>
+      <router-link v-if="auth.hasRole([Role.ADMIN])" to="/user"
+        class="py-2 px-3 rounded-lg transition-transform hover:cursor-pointer hover:scale-125">
+        <Icon name="user" size="24" css="fill-zinc-500" />
+      </router-link>
     </section>
     <section>
       <Icon @click="logout" name="logut" size="24"
