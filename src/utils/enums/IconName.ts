@@ -13,5 +13,6 @@ enum IconName {
   circle = "circle",
   spinner = "spinner",
   mop = "mop",
+  doc = "doc"
 }
 export default IconName;
