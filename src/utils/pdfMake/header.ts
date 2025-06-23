@@ -1,13 +1,12 @@
-import { logoUTC } from "@/assets/imgBase64";
 import type { Content } from "pdfmake/interfaces";
 
-export const header: Content = {
+export const header = (logo: string): Content => ({
   table: {
     widths: ['25%', '50%', '25%'],
     body: [
       [
         {
-          image: logoUTC,
+          image: logo,
           width: 90,
           alignment: 'center',
           margin: [0, 5, 0, 5],
@@ -42,4 +41,4 @@ export const header: Content = {
     hLineColor: () => '#1f1f1f',
     vLineColor: () => '#1f1f1f'
   }
-};
+});

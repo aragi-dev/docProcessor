@@ -65,7 +65,7 @@
           type="submit"
           :disabled="!isFormValid || loading"
           :class="[
-            'text-gray-400 p-2 rounded-2xl outline outline-zinc-700 bg-green-900 transition-all active:scale-95 disabled:bg-zinc-900 disabled:opacity-20 col-span-10 w-full',
+            'text-zinc-900 p-2 rounded-2xl outline outline-zinc-700 bg-zinc-300 transition-all active:scale-95 disabled:bg-zinc-900 disabled:opacity-20 disabled:text-zinc-500 col-span-10 w-full',
             loading
               ? 'cursor-wait animate-pulse'
               : isFormValid
@@ -97,16 +97,20 @@
   />
 </template>
 <script setup lang="ts">
+import { computed, onMounted, reactive, ref } from "vue";
+import type { TDocumentDefinitions } from "pdfmake/interfaces";
+
 import Icon from "@/components/Icon.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import Notification from "@/components/Notification.vue";
-import pdfMake from "@/utils/pdfMake/PdfWraper";
-import { computed, onMounted, reactive, ref } from "vue";
+
+import { logoUTC } from "@/assets/imgBase64";
+
 import { NotificationType } from "@/utils/enums/NotificationType";
-import type { TDocumentDefinitions } from "pdfmake/interfaces";
-import { header } from "@/utils/pdfMake/header";
 import { generaInformation } from "@/utils/pdfMake/generalInformation";
 import { contentEvaluation } from "@/utils/pdfMake/contentEvaluation";
+import { header } from "@/utils/pdfMake/header";
+import pdfMake from "@/utils/pdfMake/PdfWraper";
 
 const loading = ref(false);
 
@@ -193,7 +197,7 @@ const createPdfs = async () => {
   loading.value = true;
   try {
     const document: TDocumentDefinitions = {
-      content: [header, ...generaInformation(form), contentEvaluation],
+      content: [header(logoUTC), ...generaInformation(form), contentEvaluation],
     };
     await pdfMake.createPdf(document).open();
   } catch (e) {
