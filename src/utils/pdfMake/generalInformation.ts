@@ -1,6 +1,7 @@
+import type { generalInformation } from "@/interfaces/generalInformation";
 import type { Content } from "pdfmake/interfaces";
 
-export const generaInformation: Content[] = [
+export const generaInformation = (form: generalInformation): Content[] => [
   {
     text: 'DATOS GENERALES DEL INSTRUMENTO.',
     margin: [0, 30, 0, 8],
@@ -14,7 +15,7 @@ export const generaInformation: Content[] = [
       {
         width: '84%',
         stack: [
-          { text: 'ADMINISTRACIÓN', bold: true, fontSize: 10 },
+          { text: form.division, bold: true, fontSize: 10 },
           {
             canvas: [
               {
@@ -35,7 +36,7 @@ export const generaInformation: Content[] = [
       {
         width: '84%',
         stack: [
-          { text: 'LIC. EN GESTIÓN DE NEGOCIOS Y PROYECTOS', bold: true, fontSize: 10 },
+          { text: form.race, bold: true, fontSize: 10 },
           {
             canvas: [
               {
@@ -56,7 +57,7 @@ export const generaInformation: Content[] = [
       {
         width: '84%',
         stack: [
-          { text: 'MODELO DE NEGOCIO', bold: true, fontSize: 10 },
+          { text: form.subject, bold: true, fontSize: 10 },
           {
             canvas: [
               {
@@ -80,7 +81,7 @@ export const generaInformation: Content[] = [
           {
             width: '76.5%',
             stack: [
-              { text: '7° A', bold: true, fontSize: 10 },
+              { text: form.grup, bold: true, fontSize: 10 },
               {
                 canvas: [
                   {
@@ -102,7 +103,7 @@ export const generaInformation: Content[] = [
           {
             width: '40%', margin: [-25, 0, 0, 0],
             stack: [
-              { text: '10-02-2023', bold: true, fontSize: 10 },
+              { text: form.date, bold: true, fontSize: 10 },
               {
                 canvas: [
                   {
@@ -152,7 +153,7 @@ export const generaInformation: Content[] = [
         width: '70%',
         margin: [0, 5, 0, 4],
         stack: [
-          { text: 'LIC. GENER PABLO BOBADILLA MUT', bold: true, fontSize: 10 },
+          { text: form.professor, bold: true, fontSize: 10 },
           {
             canvas: [
               {

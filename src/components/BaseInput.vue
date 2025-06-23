@@ -4,7 +4,7 @@
       {{ props.label }}
     </label>
     <div class="relative">
-      <input :type="props.type" :name="props.name"
+      <input :type="props.type" :name="props.name" :id="props.name"
         :value="props.type === 'number' && typeof props.modelValue === 'number' ? String(props.modelValue) : props.modelValue"
         @input="onInput" @blur="props.onBlur"
         :class="['py-2 px-4 border-1 border-zinc-700 text-gray-400 rounded-2xl bg-zinc-800 focus:outline-none focus:border-zinc-500 w-full', props.inputClass]" />
