@@ -1,7 +1,7 @@
-import type { generalInformation } from "@/interfaces/generalInformation";
+import type { GeneralInformation } from "@/interfaces/GeneralInformation";
 import type { Content } from "pdfmake/interfaces";
 
-export const generaInformation = (form: generalInformation): Content[] => [
+export const generaInformation = (form: GeneralInformation): Content[] => [
   {
     text: 'DATOS GENERALES DEL INSTRUMENTO.',
     margin: [0, 30, 0, 8],

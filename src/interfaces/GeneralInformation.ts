@@ -1,4 +1,4 @@
-export interface generalInformation {
+export interface GeneralInformation {
   division: string;
   race: string;
   subject: string;

@@ -32,7 +32,7 @@ const inputValue = computed({
     <div class="relative">
       <input type="text" :id="props.name" :name="props.name" v-model="inputValue" :maxlength="props.maxlength"
         inputmode="numeric" pattern="\d*" @blur="props.onBlur" :class="[
-          'py-2 px-4 border-1 border-zinc-700 text-gray-300 rounded-lg bg-zinc-800 focus:outline-none focus:border-zinc-500 w-full',
+          'py-2 px-4 border-1 border-zinc-700 text-gray-300 rounded-2xl bg-zinc-800 focus:outline-none focus:border-zinc-500 w-full',
           props.inputClass,
         ]" />
       <span v-if="props.touched && props.error" class="absolute right-0 top-0 flex h-3 w-3 pointer-events-none">

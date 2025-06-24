@@ -5,25 +5,55 @@
     </h1>
     <div class="grid mb-auto">
       <form @submit.prevent="login" class="grid gap-4 grid-flow-row">
-        <InputNumber label="Code" name="code" maxlength="6" v-model="form.code" :error="fieldState.code.error"
-          :touched="fieldState.code.touched" @blur="() => markTouched('code')" />
-        <button type="submit" :disabled="!isFormValid || loading" :class="[
-          'text-zinc-900 p-2 rounded-lg outline outline-zinc-700 bg-zinc-300 transition-all active:scale-95 disabled:bg-zinc-900 disabled:text-zinc-500 disabled:opacity-20 w-full mt-2',
-          loading
-            ? 'cursor-wait animate-pulse'
-            : isFormValid
+        <BaseInput
+          label="Correo"
+          name="email"
+          v-model="form.email"
+          :error="fieldState.email.error"
+          :touched="fieldState.email.touched"
+          @blur="() => markTouched('email')"
+        />
+        <InputNumber
+          label="Code"
+          name="code"
+          maxlength="6"
+          v-model="form.code"
+          :error="fieldState.code.error"
+          :touched="fieldState.code.touched"
+          @blur="() => markTouched('code')"
+        />
+        <button
+          type="submit"
+          :disabled="!isFormValid || loading"
+          :class="[
+            'text-zinc-900 p-2 rounded-lg outline outline-zinc-700 bg-zinc-300 transition-all active:scale-95 disabled:bg-zinc-900 disabled:text-zinc-500 disabled:opacity-20 w-full mt-2',
+            loading
+              ? 'cursor-wait animate-pulse'
+              : isFormValid
               ? ''
               : 'cursor-not-allowed',
-        ]">
-          <span v-if="loading" class="grid grid-flow-col text-center items-center gap-2">
-            <Icon name="spinner" size="20" css="fill-zinc-500 animate-spin ml-auto" />
+          ]"
+        >
+          <span
+            v-if="loading"
+            class="grid grid-flow-col text-center items-center gap-2"
+          >
+            <Icon
+              name="spinner"
+              size="20"
+              css="fill-zinc-500 animate-spin ml-auto"
+            />
             <p class="mr-auto">Validando...</p>
           </span>
           <span v-else>Validar</span>
         </button>
       </form>
-      <Notification :show="notification.show" :type="notification.type" :msg="notification.msg"
-        @close="notification.show = false" />
+      <Notification
+        :show="notification.show"
+        :type="notification.type"
+        :msg="notification.msg"
+        @close="notification.show = false"
+      />
     </div>
   </main>
 </template>
@@ -31,6 +61,7 @@
 import { ref, computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 import Icon from "@/components/Icon.vue";
+import BaseInput from "@/components/BaseInput.vue";
 import Notification from "@/components/Notification.vue";
 import InputNumber from "@/components/InputNumber.vue";
 import { NotificationType } from "@/utils/enums/NotificationType";
@@ -39,21 +70,14 @@ import axios from "axios";
 import { ErrorMessagesMap } from "@/utils/ErrorMessages";
 
 const router = useRouter();
-const auth = useAuthStore()
+const auth = useAuthStore();
 
 const loading = ref(false);
-const fieldState = reactive({
-  code: { error: false, touched: false },
-});
 
 const notification = ref({
   show: false,
   type: NotificationType.SUCCESS as NotificationType,
   msg: "Hola",
-});
-
-const form = reactive({
-  code: "",
 });
 
 function showNotification(type: typeof notification.value.type, msg: string) {
@@ -65,14 +89,28 @@ function markTouched(field: keyof typeof fieldState) {
   fieldState[field].touched = true;
 }
 
+const fieldState = reactive({
+  email: { error: false, touched: false },
+  code: { error: false, touched: false },
+});
+
+const form = reactive({
+  email: "",
+  code: "",
+});
+
 function validateForm() {
+  const email = form.email.trim();
   const code = form.code.trim();
-  const isValid = /^\d{6}$/.test(code);
-  fieldState.code.error = !isValid;
 
-  return isValid;
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isCodeValid = /^\d{6}$/.test(code);
+
+  fieldState.email.error = !isEmailValid;
+  fieldState.code.error = !isCodeValid;
+
+  return isEmailValid && isCodeValid;
 }
-
 
 const isFormValid = computed(() => validateForm());
 
@@ -85,6 +123,7 @@ function resetFieldState() {
 
 function resetForm() {
   Object.assign(form, {
+    email: "",
     code: "",
   });
   resetFieldState();
@@ -97,7 +136,7 @@ const login = async () => {
   if (validateForm()) {
     loading.value = true;
     try {
-      await auth.login(form.code)
+      await auth.login({ email: form.email, code: form.code });
       router.push({ name: "Home" });
       resetForm();
     } catch (error: unknown) {
@@ -105,12 +144,9 @@ const login = async () => {
 
       if (axios.isAxiosError(error)) {
         const status = error.response?.status;
-        const serverMessage = error.response?.data?.message;
 
         if (status && ErrorMessagesMap[status]) {
           mensaje = ErrorMessagesMap[status].message;
-        } else {
-          mensaje = serverMessage ?? "Error inesperado";
         }
       }
 

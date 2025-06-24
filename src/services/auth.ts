@@ -1,13 +1,14 @@
 import { defineStore } from 'pinia'
 import api from '@/services/api'
 import type { Role } from '@/utils/enums/Role'
+import type Login from '@/interfaces/Login'
 
 interface User {
   id: string
   role: Role
 }
 
-interface AuthState { 
+interface AuthState {
   token: string | null
   user: User | null
 }
@@ -19,8 +20,8 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   actions: {
-    async login(code: string) {
-      const response = await api.post('/login', { code })
+    async login(data: Login) {
+      const response = await api.post('/login', { email: data.email, code: data.code })
       const { token, user } = response.data.data
 
       this.token = token
