@@ -104,7 +104,8 @@ import Icon from "@/components/Icon.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import Notification from "@/components/Notification.vue";
 
-import { logoUTC } from "@/assets/imgBase64";
+import { utcLogo } from "@/assets/imgBase64/utcLogo";
+import { utmLogo } from "@/assets/imgBase64/utmLogo";
 
 import { NotificationType } from "@/utils/enums/NotificationType";
 import { generaInformation } from "@/utils/pdfMake/generalInformation";
@@ -197,7 +198,7 @@ const createPdfs = async () => {
   loading.value = true;
   try {
     const document: TDocumentDefinitions = {
-      content: [header(logoUTC), ...generaInformation(form), contentEvaluation],
+      content: [header(utcLogo), ...generaInformation(form), contentEvaluation, header(utmLogo)],
     };
     await pdfMake.createPdf(document).open();
   } catch (e) {
@@ -209,8 +210,4 @@ const createPdfs = async () => {
     loading.value = false;
   }
 };
-
-onMounted(async () => {
-  "hola";
-});
 </script>
