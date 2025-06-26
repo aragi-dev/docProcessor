@@ -1,5 +1,6 @@
 <template>
   <main class="grid p-4">
+    <input type="file" accept=".docx" @change="onFileChange" />
     <form @submit.prevent="createPdfs" class="grid gap-4">
       <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <BaseInput
@@ -97,7 +98,7 @@
   />
 </template>
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import type { TDocumentDefinitions } from "pdfmake/interfaces";
 
 import Icon from "@/components/Icon.vue";
@@ -112,6 +113,7 @@ import { generaInformation } from "@/utils/pdfMake/generalInformation";
 import { contentEvaluation } from "@/utils/pdfMake/contentEvaluation";
 import { header } from "@/utils/pdfMake/header";
 import pdfMake from "@/utils/pdfMake/PdfWraper";
+import { getInfo } from "@/utils/getInfo";
 
 const loading = ref(false);
 
@@ -131,11 +133,12 @@ function markTouched(field: keyof typeof fieldState) {
 }
 
 function resetFieldState() {
-  (Object.keys(fieldState) as Array<keyof typeof fieldState>).forEach((k) => {
-    fieldState[k].error = false;
-    fieldState[k].touched = false;
-  });
+  for (const key in fieldState) {
+    fieldState[key as keyof typeof fieldState].error = false;
+    fieldState[key as keyof typeof fieldState].touched = false;
+  }
 }
+
 
 const fieldState = reactive({
   division: { error: false, touched: false },
@@ -155,42 +158,26 @@ const form = reactive({
   professor: "",
 });
 
-function validateForm() {
-  fieldState.division.error = !form.division;
-  fieldState.race.error = !form.race;
-  fieldState.subject.error = !form.subject;
-  fieldState.grup.error = !form.grup;
-  fieldState.date.error = !form.date;
-  fieldState.professor.error = !form.professor;
-  return (
-    !fieldState.division.error &&
-    !fieldState.race.error &&
-    !fieldState.subject.error &&
-    !fieldState.grup.error &&
-    !fieldState.date.error &&
-    !fieldState.professor.error
-  );
+function validateForm(): boolean {
+  let isValid = true;
+  for (const key in form) {
+    const value = form[key as keyof typeof form];
+    const hasError = !value.toString().trim();
+    fieldState[key as keyof typeof fieldState].error = hasError;
+    isValid = isValid && !hasError;
+  }
+  return isValid;
 }
+
 const isFormValid = computed(() => validateForm());
-const isFormDirty = computed(
-  () =>
-    form.division &&
-    form.race &&
-    form.subject &&
-    form.grup &&
-    form.date &&
-    form.professor
+const isFormDirty = computed(() =>
+  Object.values(form).every((v) => v.toString().trim() !== "")
 );
 
 function resetForm() {
-  Object.assign(form, {
-    division: "",
-    race: "",
-    subject: "",
-    grup: "",
-    date: "",
-    professor: "",
-  });
+  for (const key in form) {
+    form[key as keyof typeof form] = "";
+  }
   resetFieldState();
 }
 
@@ -210,4 +197,16 @@ const createPdfs = async () => {
     loading.value = false;
   }
 };
+
+const tableJson = ref<any[]>([]);
+
+const onFileChange = async (e: Event) => {
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+
+  const jsonString = await getInfo(file);
+
+  console.log(jsonString);
+};
+
 </script>
