@@ -1,59 +1,23 @@
 <template>
-  <main class="h-svh grid place-items-center gap-12">
-    <h1 class="text-4xl text-zinc-300 font-bold mx-auto mt-auto">
+  <main class="h-svh grid place-items-center gap-4">
+    <h1 class="text-4xl text-zinc-800 font-bold mx-auto mt-auto">
       Iniciar Sesión
     </h1>
     <div class="grid mb-auto">
       <form @submit.prevent="login" class="grid gap-4 grid-flow-row">
-        <BaseInput
-          label="Correo"
-          name="email"
-          v-model="form.email"
-          :error="fieldState.email.error"
-          :touched="fieldState.email.touched"
-          @blur="() => markTouched('email')"
-        />
-        <InputNumber
-          label="Code"
-          name="code"
-          maxlength="6"
-          v-model="form.code"
-          :error="fieldState.code.error"
-          :touched="fieldState.code.touched"
-          @blur="() => markTouched('code')"
-        />
-        <button
-          type="submit"
-          :disabled="!isFormValid || loading"
-          :class="[
-            'text-zinc-900 p-2 rounded-lg outline outline-zinc-700 bg-zinc-300 transition-all active:scale-95 disabled:bg-zinc-900 disabled:text-zinc-500 disabled:opacity-20 w-full mt-2',
-            loading
-              ? 'cursor-wait animate-pulse'
-              : isFormValid
-              ? ''
-              : 'cursor-not-allowed',
-          ]"
-        >
-          <span
-            v-if="loading"
-            class="grid grid-flow-col text-center items-center gap-2"
-          >
-            <Icon
-              name="spinner"
-              size="20"
-              css="fill-zinc-500 animate-spin ml-auto"
-            />
-            <p class="mr-auto">Validando...</p>
-          </span>
+        <BaseInput label="Correo" name="email" v-model="form.email" :error="fieldState.email.error"
+          :touched="fieldState.email.touched" @blur="() => markTouched('email')" />
+        <InputNumber v-if="isEmailValid" label="Code" name="code" maxlength="6" v-model="form.code"
+          :error="fieldState.code.error" :touched="fieldState.code.touched" @blur="() => markTouched('code')" />
+        <button type="submit" :disabled="!isFormValid" :class="[
+          'text-zinc-300 p-2 rounded-2xl outline outline-zinc-300 bg-violet-500 transition-all disabled:opacity-0 w-full mt-2',
+        ]">
+          <Icon v-if="loading" name="spinner" size="20" css="fill-zinc-300 animate-spin mx-auto" />
           <span v-else>Validar</span>
         </button>
       </form>
-      <Notification
-        :show="notification.show"
-        :type="notification.type"
-        :msg="notification.msg"
-        @close="notification.show = false"
-      />
+      <Notification :show="notification.show" :type="notification.type" :msg="notification.msg"
+        @close="notification.show = false" />
     </div>
   </main>
 </template>
@@ -114,20 +78,9 @@ function validateForm() {
 
 const isFormValid = computed(() => validateForm());
 
-function resetFieldState() {
-  (Object.keys(fieldState) as Array<keyof typeof fieldState>).forEach((k) => {
-    fieldState[k].error = false;
-    fieldState[k].touched = false;
-  });
-}
-
-function resetForm() {
-  Object.assign(form, {
-    email: "",
-    code: "",
-  });
-  resetFieldState();
-}
+const isEmailValid = computed(() =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())
+);
 
 const login = async () => {
   (Object.keys(fieldState) as Array<keyof typeof fieldState>).forEach(
@@ -138,9 +91,8 @@ const login = async () => {
     try {
       await auth.login({ email: form.email, code: form.code });
       router.push({ name: "Home" });
-      resetForm();
     } catch (error: unknown) {
-      let mensaje = "Error desconocido al iniciar sesión";
+      let mensaje = "Conectate a internet";
 
       if (axios.isAxiosError(error)) {
         const status = error.response?.status;
