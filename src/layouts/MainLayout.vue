@@ -1,5 +1,5 @@
 <template>
-  <main class="grid gap-4 p-4">
+  <main>
     <Analytics />
     <SpeedInsights />
     <MainNav />
