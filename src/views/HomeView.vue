@@ -1,9 +1,11 @@
 <template>
   <main class="grid place-items-center gap-4 h-svh">
-    <!-- <input type="file" accept=".docx" @change="onFileChange" /> -->
-    <Icon name="doc" size="20" css="fill-zinc-500 m-auto mt-auto" />
-    <!-- <form @submit.prevent="createPdfs" class="grid gap-4">
-      <section class="grid grid-cols-1 md:  grid-cols-2 gap-4">
+    <button>
+      <input ref="fileInput" type="file" accept=".docx" @change="extract" class="hidden" />
+      <Icon name="doc" size="30" css="fill-zinc-500 m-auto mt-auto" @click="triggerInput" />
+    </button>
+    <form @submit.prevent="createPdfs" class="grid gap-4">
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <BaseInput label="Division" name="division" v-model="form.division" :error="fieldState.division.error"
           :touched="fieldState.division.touched" @blur="() => markTouched('division')" />
         <BaseInput label="Carrera" name="race" v-model="form.race" :error="fieldState.race.error"
@@ -37,7 +39,7 @@
           <span v-else>Generar</span>
         </button>
       </section>
-    </form> -->
+    </form>
   </main>
   <Notification :show="notification.show" :type="notification.type" :msg="notification.msg"
     @close="notification.show = false" />
@@ -47,18 +49,26 @@ import { computed, reactive, ref } from "vue";
 import type { TDocumentDefinitions } from "pdfmake/interfaces";
 
 import Icon from "@/components/Icon.vue";
-import BaseInput from "@/components/BaseInput.vue";
 import Notification from "@/components/Notification.vue";
+import BaseInput from "@/components/BaseInput.vue";
 
 import { utcLogo } from "@/assets/imgBase64/utcLogo";
 import { utmLogo } from "@/assets/imgBase64/utmLogo";
 
-import { NotificationType } from "@/utils/enums/NotificationType";
 import { generaInformation } from "@/utils/pdfMake/generalInformation";
 import { contentEvaluation } from "@/utils/pdfMake/contentEvaluation";
+import { NotificationType } from "@/utils/enums/NotificationType";
+import { extractInfo } from "@/utils/extractDocxText";
 import { header } from "@/utils/pdfMake/header";
 
 const loading = ref(false);
+
+const fileInput = ref<HTMLInputElement | null>(null);
+
+const triggerInput = () => {
+  fileInput.value?.click();
+};
+
 
 const notification = ref({
   show: false,
@@ -140,13 +150,131 @@ const createPdfs = async () => {
   }
 };
 
-const onFileChange = async (e: Event) => {
-  const file = (e.target as HTMLInputElement).files?.[0];
-  if (!file) return;
-
-  const jsonString = "hola"
-
-  console.log(jsonString);
+const extract = async (event: Event) => {
+  const file = (event.target as HTMLInputElement)?.files?.[0];
+  if (file) {
+    const data = await extractInfo(file);
+    console.log("Texto extraído:", data);
+    await callGroqLLM(data);
+  }
 };
 
+const systemPrompt = `
+1. Primer parcial, proyecto (saber hacer)
+2. Primer parcial, investigación (saber)
+3. Segundo parcial, proyecto (saber hacer)
+4. Segundo parcial, portafolio (saber)
+5. Tercer parcial, proyecto (saber hacer)
+6. Tercer parcial, portafolio (saber)
+7. Ordinario 1, prueba_clave (saber)
+8. Ordinario 1, prueba (saber)
+9. Ordinario 2, informe (saber)
+10. Ordinario 2, estudio_caso (saber hacer)
+11. Ordinario 3, portafolio_tareas (saber)
+12. Ordinario 3, proyecto (saber hacer)
+13. Ordinario global, prueba_clave (saber)
+14. Ordinario global, prueba (saber)
+15. Ordinario global, proyecto (saber hacer)
+16. Extraordinario 1, ensayo_informe (saber)
+17. Extraordinario 1, estudio_caso (saber hacer)
+18. Extraordinario 2, mapa_conceptual (saber)
+19. Extraordinario 2, estudio_caso (saber hacer)`;
+
+const parcialPrompt = `
+Eres una inteligencia artificial especializada en diseño instruccional para nivel medio-superior y superior. Tu función es generar planeaciones académicas completas con actividades formativas y sumativas basadas en un texto académico de entrada.
+
+Tu salida debe ser un objeto JSON válido con la siguiente estructura exacta. No generes texto adicional fuera del objeto. No uses comillas triples ni bloques de código.
+
+Estructura esperada ejemplo:
+{
+  "data": [
+    {
+      "type": "parcial",
+      "number": 1,
+      "activity": "1",
+      "name": "I.E.1 TRABAJO DE INVESTIGACIÓN (SABER)",
+      "content": "Texto largo y detallado con instrucciones claras para el alumno. Incluye Instrucciones, procedimiento, guia procedimental, dicenia, mapa conseptual, requisitos de fondo.
+      1. La actividad deberá realizarse en equipos integradores.
+      2. La secuencia del trabajo deberá ser la siguiente: 	
+        a. Portada Oficial. Deberá incluir el logo de la universidad, en el centro el nombre del informe, el nombre de la carrera, el grado y grupo, en orden alfabético el nombre del alumno que realizaron la investigación, los porcentajes de participación, el nombre del profesor y fecha de entrega.
+        b. Hoja de criterio de evaluación (solo esa hoja)
+        c. Índice
+        d. Introducción (12 líneas)
+        e. Desarrollo (antes de iniciar un ejercicio se debe emplear una hoja de guarda con el número y título)
+        f. Conclusión (1 cuartilla)
+        g. Referencias Bibliográficas: Deberás incluir al menos tres y se presentan en formato APA. Deberán presentarse de manera completa, incluyendo el autor, año de edición, título del libro, País, Editorial. Si fuera de internet deberá incluir todo lo anterior más el recuperado y la liga completa de acceso. No se acepta información encontrada en el rincón del vago, Wikipedia, blogs administrados por personas desconocidas y todas aquellas fuentes que carezcan de formalidad y profesionalidad. Cuidado con copiar y pegar pues equivale a la ANULACIÓN DEL TRABAJO y reporte a la coordinación.
+        h. Anexos
+      3. El trabajo deberá entregarse en la fecha y hora señalada por el profesor.
+      B. Requisitos de forma.
+        1. El trabajo deberá en formato digital
+        2. Incluir portada oficial con sus nombres en orden alfabético de apellido, porcentajes de participación e incluir nombre de la actividad, carrera, grado y grupo.
+        3. El documento deberá paginarse en el ángulo superior derecho.
+        4. Usar letra Arial 8 a 12 
+        5. El documento deberá estar justificado.
+        6. Los márgenes del docto serán de 2.5 cm.
+        7. El trabajo deberá estar redactado en tercera persona, cuidando la presentación y ortografía de este."
+    },
+    {
+      "type": "parcial",
+      "number": 1,
+      "activity": "2",
+      "name": "I.E.1 PROYECTO (SABER HACER)",
+      "content": "Texto largo y detallado con estructura CANVAS, método NABC y propuesta de innovación. Incluye secciones, numeración, ejemplos y formato de entrega."
+    },
+    ...
+  ]
+}
+
+Reglas que debes seguir estrictamente:
+
+- Devuelve exactamente 6 objetos en el arreglo "data", dos por parcial (1 investigación, 1 proyecto).
+- Usa solo caracteres compatibles con JSON. No uses caracteres de control, comillas sin escapar, saltos sin comillas dobles o formato inválido.
+- Cada objeto debe contener:
+  - type: "parcial"
+  - number: número de parcial (1, 2, 3)
+  - activity: "1" para investigación (saber), "2" para proyecto (saber hacer)
+  - name: con prefijo "I.E.{n} ..." y el nombre del documento en mayúsculas
+  - content: instrucciones claras, completas, realistas y bien estructuradas. Inicia con "Instrucciones:" y desarrolla contenido extenso similar a un trabajo escolar real.
+  - required: lista de entregables o criterios de evaluación
+
+Evita todo lo siguiente:
+- No uses comillas triples ni bloques tipo json.
+- No generes encabezados, títulos, comentarios, ni notas explicativas fuera del JSON.
+- No incluyas saltos de línea sin estar dentro de strings.
+- No cierres mal las comillas ni uses caracteres no estándar.
+
+El texto académico que se te dará debe analizarse para generar las actividades correspondientes. Si no hay suficiente contexto, genera actividades completas siguiendo ejemplos previos.
+
+`;
+
+async function callGroqLLM(inputText: string): Promise<any> {
+  const response = await fetch(import.meta.env.VITE_API_GROQ, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: import.meta.env.VITE_API_IA
+    },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        { role: "system", content: parcialPrompt },
+        { role: "user", content: `Texto extraído:\n\n${inputText}` }
+      ],
+      temperature: 0.2,
+      max_tokens: 4096
+    })
+  });
+
+  const result = await response.json();
+  const content = result.choices?.[0]?.message?.content;
+
+  console.log("Respuesta del LLM:", content);
+
+  try {
+    return JSON.parse(content);
+  } catch (e) {
+    console.error("Error al parsear JSON:", e);
+    return null;
+  }
+}
 </script>

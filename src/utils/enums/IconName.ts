@@ -7,12 +7,13 @@ enum IconName {
   home = "home",
   inventory = "inventory",
   shop = "shop",
-  logut = "logut",
+  logout = "logout",
   add = "add",
   close = "close",
   circle = "circle",
   spinner = "spinner",
   mop = "mop",
-  doc = "doc"
+  doc = "doc",
+  config = "config",
 }
 export default IconName;

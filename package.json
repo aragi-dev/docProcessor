@@ -10,6 +10,7 @@
   "dependencies": {
     "@vercel/analytics": "1.5.0",
     "@vercel/speed-insights": "1.2.0",
+    "mammoth": "1.9.1",
     "pdfmake": "0.2.20",
     "pinia": "3.0.1",
     "vue": "3.5.17",

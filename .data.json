@@ -1,0 +1,214 @@
+[
+  {
+    "type": "parcial",
+    "subtype": "proyecto",
+    "number": 1,
+    "name": "Primer parcial, proyecto",
+    "content": "Elaborar una propuesta de marketing digital que contenga: Análisis del ciclo de vida y nivel del producto o servicio, Selección y justificación del tipo de comercio electrónico aplicable, Segmentación de mercados en línea, Evidencias de los procesos de operación de las herramientas de comercio electrónico aplicables, Análisis de riesgos de seguridad de las herramientas digitales utilizadas",
+    "required": [
+      "Rúbrica",
+      "Formato",
+      "Entregables"
+    ]
+  },
+  {
+    "type": "parcial",
+    "subtype": "investigacion",
+    "number": 1,
+    "name": "Primer parcial, investigación",
+    "content": "Investigar sobre las tendencias de marketing aplicadas al turismo y su relación con la prestación de los servicios turísticos",
+    "required": [
+      "Informe de investigación",
+      "Bibliografía"
+    ]
+  },
+  {
+    "type": "parcial",
+    "subtype": "proyecto",
+    "number": 2,
+    "name": "Segundo parcial, proyecto",
+    "content": "Diseñar estrategias de mercadotecnia de productos y servicios turísticos, para su crecimiento y posicionamiento",
+    "required": [
+      "Rúbrica",
+      "Formato",
+      "Entregables"
+    ]
+  },
+  {
+    "type": "parcial",
+    "subtype": "portafolio",
+    "number": 2,
+    "name": "Segundo parcial, portafolio",
+    "content": "Elaborar un portafolio que contenga evidencias de los procesos de diseño y implementación de estrategias de mercadotecnia",
+    "required": [
+      "Portafolio",
+      "Evidencias"
+    ]
+  },
+  {
+    "type": "parcial",
+    "subtype": "proyecto",
+    "number": 3,
+    "name": "Tercer parcial, proyecto",
+    "content": "Elaborar una propuesta de marketing que contenga estrategias de: Producto, Precio, Distribución, Promoción, Fidelización, Evidencias de operación de sistemas CRM",
+    "required": [
+      "Rúbrica",
+      "Formato",
+      "Entregables"
+    ]
+  },
+  {
+    "type": "parcial",
+    "subtype": "portafolio",
+    "number": 3,
+    "name": "Tercer parcial, portafolio",
+    "content": "Elaborar un portafolio que contenga evidencias de los procesos de diseño y implementación de estrategias de marketing",
+    "required": [
+      "Portafolio",
+      "Evidencias"
+    ]
+  },
+  {
+    "type": "ordinary",
+    "subtype": "prueba_clave",
+    "number": 1,
+    "name": "Ordinario 1, prueba_clave",
+    "content": "Resolver una prueba clave que evalúe la comprensión de los conceptos de mercadotecnia estratégica",
+    "required": [
+      "Prueba clave",
+      "Respuestas"
+    ]
+  },
+  {
+    "type": "ordinary",
+    "subtype": "prueba",
+    "number": 1,
+    "name": "Ordinario 1, prueba",
+    "content": "Resolver una prueba que evalúe la comprensión de los conceptos de mercadotecnia estratégica",
+    "required": [
+      "Prueba",
+      "Respuestas"
+    ]
+  },
+  {
+    "type": "ordinary",
+    "subtype": "informe",
+    "number": 2,
+    "name": "Ordinario 2, informe",
+    "content": "Elaborar un informe que analice la situación actual de la mercadotecnia estratégica en una empresa turística",
+    "required": [
+      "Informe",
+      "Bibliografía"
+    ]
+  },
+  {
+    "type": "ordinary",
+    "subtype": "estudio_caso",
+    "number": 2,
+    "name": "Ordinario 2, estudio_caso",
+    "content": "Elaborar un estudio de caso que analice la implementación de estrategias de mercadotecnia en una empresa turística",
+    "required": [
+      "Estudio de caso",
+      "Bibliografía"
+    ]
+  },
+  {
+    "type": "ordinary",
+    "subtype": "portafolio_tareas",
+    "number": 3,
+    "name": "Ordinario 3, portafolio_tareas",
+    "content": "Elaborar un portafolio que contenga evidencias de los procesos de diseño y implementación de estrategias de mercadotecnia",
+    "required": [
+      "Portafolio",
+      "Evidencias"
+    ]
+  },
+  {
+    "type": "ordinary",
+    "subtype": "proyecto",
+    "number": 3,
+    "name": "Ordinario 3, proyecto",
+    "content": "Elaborar un proyecto que diseñe e implemente estrategias de mercadotecnia para una empresa turística",
+    "required": [
+      "Proyecto",
+      "Rúbrica"
+    ]
+  },
+  {
+    "type": "ordinary_global",
+    "subtype": "prueba_clave",
+    "number": 0,
+    "name": "Ordinario global, prueba_clave",
+    "content": "Resolver una prueba clave que evalúe la comprensión de los conceptos de mercadotecnia estratégica",
+    "required": [
+      "Prueba clave",
+      "Respuestas"
+    ]
+  },
+  {
+    "type": "ordinary_global",
+    "subtype": "prueba",
+    "number": 0,
+    "name": "Ordinario global, prueba",
+    "content": "Resolver una prueba que evalúe la comprensión de los conceptos de mercadotecnia estratégica",
+    "required": [
+      "Prueba",
+      "Respuestas"
+    ]
+  },
+  {
+    "type": "ordinary_global",
+    "subtype": "proyecto",
+    "number": 0,
+    "name": "Ordinario global, proyecto",
+    "content": "Elaborar un proyecto que diseñe e implemente estrategias de mercadotecnia para una empresa turística",
+    "required": [
+      "Proyecto",
+      "Rúbrica"
+    ]
+  },
+  {
+    "type": "extraordinary",
+    "subtype": "ensayo_informe",
+    "number": 1,
+    "name": "Extraordinario 1, ensayo_informe",
+    "content": "Elaborar un ensayo que analice la situación actual de la mercadotecnia estratégica en una empresa turística",
+    "required": [
+      "Ensayo",
+      "Bibliografía"
+    ]
+  },
+  {
+    "type": "extraordinary",
+    "subtype": "estudio_caso",
+    "number": 1,
+    "name": "Extraordinario 1, estudio_caso",
+    "content": "Elaborar un estudio de caso que analice la implementación de estrategias de mercadotecnia en una empresa turística",
+    "required": [
+      "Estudio de caso",
+      "Bibliografía"
+    ]
+  },
+  {
+    "type": "extraordinary",
+    "subtype": "mapa_conceptual",
+    "number": 2,
+    "name": "Extraordinario 2, mapa_conceptual",
+    "content": "Elaborar un mapa conceptual que analice la relación entre los conceptos de mercadotecnia estratégica",
+    "required": [
+      "Mapa conceptual",
+      "Bibliografía"
+    ]
+  },
+  {
+    "type": "extraordinary",
+    "subtype": "estudio_caso",
+    "number": 2,
+    "name": "Extraordinario 2, estudio_caso",
+    "content": "Elaborar un estudio de caso que analice la implementación de estrategias de mercadotecnia en una empresa turística",
+    "required": [
+      "Estudio de caso",
+      "Bibliografía"
+    ]
+  }
+]

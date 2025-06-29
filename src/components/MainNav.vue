@@ -18,6 +18,6 @@ const logout = () => {
     <Icon @click="logout" name="logout" size="24"
       css="fill-zinc-500 transition hover:cursor-pointer hover:scale-125 hover:fill-red-400 rotate-180 mr-auto" />
     <Icon name="config" size="24"
-      css="fill-zinc-500 transition hover:cursor-pointer hover:scale-125 hover:7 active:opacity-40 ml-auto" />
+      css="fill-zinc-500 transition hover:cursor-pointer hover:scale-125 hover:fill-violet-500 active:opacity-40 active:rotate-90 ml-auto" />
   </nav>
 </template>
