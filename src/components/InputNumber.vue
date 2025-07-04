@@ -25,14 +25,14 @@ const inputValue = computed({
 </script>
 
 <template>
-  <div class="grid gap-1">
-    <label :for="props.name" :class="['text-gray-400 ml-1', props.labelClass]">
+  <div class="grid">
+    <label :for="props.name" :class="['text-gray-400 ml-1 font-semibold', props.labelClass]">
       {{ props.label }}
     </label>
     <div class="relative">
       <input type="text" :id="props.name" :name="props.name" v-model="inputValue" :maxlength="props.maxlength"
         inputmode="numeric" pattern="\d*" @blur="props.onBlur" :class="[
-          'py-2 px-4 border-1 border-zinc-700 text-gray-300 rounded-2xl bg-zinc-800 focus:outline-none focus:border-zinc-500 w-full',
+          'py-2 px-4 rounded-2xl text-white shadow-lg border border-white/20 backdrop-blur-sm bg-gradient-to-br from-white/10 to-white/5 transition w-full focus:outline-none',
           props.inputClass,
         ]" />
       <span v-if="props.touched && props.error" class="absolute right-0 top-0 flex h-3 w-3 pointer-events-none">
