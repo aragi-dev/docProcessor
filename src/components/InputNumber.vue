@@ -12,6 +12,7 @@ const props = defineProps<{
   inputClass?: string;
   inputmode?: any;
   maxlength?: string;
+  disable?: boolean;
   onBlur?: () => void;
 }>();
 
@@ -31,9 +32,8 @@ const inputValue = computed({
     </label>
     <div class="relative">
       <input type="text" :id="props.name" :name="props.name" v-model="inputValue" :maxlength="props.maxlength"
-        inputmode="numeric" pattern="\d*" @blur="props.onBlur" :class="[
-          'py-2 px-4 rounded-2xl text-white shadow-lg border border-white/20 backdrop-blur-sm bg-gradient-to-br from-white/10 to-white/5 transition w-full focus:outline-none',
-          props.inputClass,
+        inputmode="numeric" pattern="\d*" @blur="props.onBlur" :disable="props.disable" :class="[
+          'py-2 px-4 rounded-2xl text-white shadow-lg border border-white/20 backdrop-blur-sm bg-gradient-to-br from-white/10 to-white/5 transition w-full focus:outline-none focus:from-white/20 focus:to-white/10 focus:border-white/30 disabled:opacity-0',
         ]" />
       <span v-if="props.touched && props.error" class="absolute right-0 top-0 flex h-3 w-3 pointer-events-none">
         <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
