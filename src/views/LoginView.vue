@@ -7,17 +7,17 @@
       <form @submit.prevent="login" class="grid gap-4 grid-flow-row">
         <BaseInput label="Correo" name="email" v-model="form.email" :error="fieldState.email.error"
           :touched="fieldState.email.touched" @blur="() => markTouched('email')" />
-        <InputNumber v-if="isEmailValid" label="Code" name="code" maxlength="6" v-model="form.code"
-          :error="fieldState.code.error" :touched="fieldState.code.touched" @blur="() => markTouched('code')"
-          class="disabled:opacity-0" />
+        <InputCode v-model="form.code" name="code" :disabled="false" />
+        <!-- <InputNumber :disable="isFormValid" label="Code" name="code" maxlength="6" v-model="form.code"
+          :error="fieldState.code.error" :touched="fieldState.code.touched" @blur="() => markTouched('code')" /> -->
         <button type="submit" :disabled="!isFormValid" :class="[
-          'relative px-4 py-2 mt-4 rounded-2xl text-white shadow-lg border border-white/20 backdrop-blur-sm bg-gradient-to-br from-white/30 to-white/5 transition-all duration-300 disabled:opacity-0',
+          'relative px-4 py-2 mt-4 rounded-2xl text-white shadow-lg border border-white/20 backdrop-blur-sm bg-gradient-to-br from-white/30 to-white/5 transition-all duration-300 disabled:opacity-0 hover:from-white/40 hover:to-white/10 focus:outline-none focus:border-white/30',
         ]">
           <samp class="flex gap-2" v-if="loading">
             <Icon name="spinner" size="24" css="z-10 fill-white animate-spin ml-auto" />
             <span class="relative z-10 mr-auto">Procesando</span>
           </samp>
-          <span class="relative z-10" v-else>Validar</span>
+          <span class="relative z-10" v-else>Confirmar</span>
         </button>
       </form>
       <Notification :show="notification.show" :type="notification.type" :msg="notification.msg"
@@ -36,6 +36,7 @@ import { NotificationType } from "@/utils/enums/NotificationType";
 import { useAuthStore } from "@/services/auth";
 import axios from "axios";
 import { ErrorMessagesMap } from "@/utils/ErrorMessages";
+import InputCode from "@/components/inputCode.vue";
 
 const router = useRouter();
 const auth = useAuthStore();
