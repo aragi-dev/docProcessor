@@ -1,6 +1,6 @@
 <template>
   <main class="h-svh grid place-items-center gap-4">
-    <h1 class="text-4xl text-zinc-800 font-bold mx-auto mt-auto">
+    <h1 class="text-4xl text-zinc-300 font-bold mx-auto mt-auto">
       Iniciar Sesión
     </h1>
     <div class="grid mb-auto">
@@ -8,12 +8,16 @@
         <BaseInput label="Correo" name="email" v-model="form.email" :error="fieldState.email.error"
           :touched="fieldState.email.touched" @blur="() => markTouched('email')" />
         <InputNumber v-if="isEmailValid" label="Code" name="code" maxlength="6" v-model="form.code"
-          :error="fieldState.code.error" :touched="fieldState.code.touched" @blur="() => markTouched('code')" />
+          :error="fieldState.code.error" :touched="fieldState.code.touched" @blur="() => markTouched('code')"
+          class="disabled:opacity-0" />
         <button type="submit" :disabled="!isFormValid" :class="[
-          'text-zinc-300 p-2 rounded-2xl outline outline-zinc-300 bg-violet-500 transition-all disabled:opacity-0 w-full mt-2',
+          'relative px-4 py-2 mt-4 rounded-2xl text-white shadow-lg border border-white/20 backdrop-blur-sm bg-gradient-to-br from-white/30 to-white/5 transition-all duration-300 disabled:opacity-0',
         ]">
-          <Icon v-if="loading" name="spinner" size="20" css="fill-zinc-300 animate-spin mx-auto" />
-          <span v-else>Validar</span>
+          <samp class="flex gap-2" v-if="loading">
+            <Icon name="spinner" size="24" css="z-10 fill-white animate-spin ml-auto" />
+            <span class="relative z-10 mr-auto">Procesando</span>
+          </samp>
+          <span class="relative z-10" v-else>Validar</span>
         </button>
       </form>
       <Notification :show="notification.show" :type="notification.type" :msg="notification.msg"
