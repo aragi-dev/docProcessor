@@ -1,5 +1,5 @@
 <template>
-  <main class="h-svh grid place-items-center gap-4">
+  <main class="grid place-items-center gap-4">
     <h1 class="text-4xl text-zinc-300 font-bold mx-auto mt-auto">
       Iniciar Sesión
     </h1>
